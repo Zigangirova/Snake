@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.Random;
 
 public class Field extends JPanel implements ActionListener {
@@ -51,20 +52,29 @@ public class Field extends JPanel implements ActionListener {
 
 
     public void createBerry() {
+        Random random = new Random();
+        int lol = 20 + random.nextInt(20)*dotSize;
         berryX = new Random().nextInt(20) * dotSize;
-        berryY = new Random().nextInt(20) * dotSize;
+        berryY = lol;
     }
 
 
     public void image() {
-        ImageIcon h = new ImageIcon("head.jpg");
-        head = h.getImage();
-        ImageIcon bd = new ImageIcon("body.jpg");
-        body = bd.getImage();
-        ImageIcon br = new ImageIcon("berry.jpg");
-        berry = br.getImage();
+        URL url = getClass().getResource("head.jpg");
+        ImageIcon ii = new ImageIcon(url);
+        head = ii.getImage();
 
+        url = getClass().getResource("body.jpg");
+        ImageIcon a = new ImageIcon(url);
+        body = a.getImage();
+
+        url = getClass().getResource("berry.jpg");
+        ImageIcon b = new ImageIcon(url);
+        berry = b.getImage();
     }
+
+
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -79,13 +89,22 @@ public class Field extends JPanel implements ActionListener {
                     g.drawImage(body, x[i], y[i], this);
                 }
                 String c = "Score " + score;
+                Font small = new Font("Helvetica", 1, 18);
                 g.setColor(Color.black);
-                g.drawString(c, 370, 10);
+                g.setFont(small);
+                g.drawString(c, 170, 19);
+                g.drawLine(0, 20, 440, 20);
             }
         } else {
             String a = ("GAME OVER");
+            Font gg = new Font("Helvetica", 1, 18);
             g.setColor(Color.red);
-            g.drawString(a, 175, size / 2);
+            g.setFont(gg);
+            g.drawString(a, 120, size / 2);
+            String b = ("Your score = " + score);
+            g.setColor(Color.black);
+            g.setFont(gg);
+            g.drawString(b, 105,235);
         }
     }
 
@@ -136,7 +155,7 @@ public class Field extends JPanel implements ActionListener {
         if (y[0] > size) {
             inGame = false;
         }
-        if (y[0] < 0) {
+        if (y[0] < 10) {
             inGame = false;
         }
     }

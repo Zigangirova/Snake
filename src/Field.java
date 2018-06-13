@@ -20,17 +20,30 @@ public class Field extends JPanel implements ActionListener {
     private Image head;
     private Image body;
     private Image berry;
-    private int[] x = new int[allDots];
-    private int[] y = new int[allDots];
-    private boolean inGame = true;
-    private boolean left = false;
-    private boolean right = true;
-    private boolean up = false;
-    private boolean down = false;
-    private int score = 0;
+    private int[] x;
+    private int[] y;
+    private boolean inGame;
+    private boolean left;
+    private boolean right;
+    private boolean up;
+    private boolean down;
+    private int score;
 
 
     public Field() {
+        timer = new Timer(250, this);
+        this.init();
+    }
+
+    private void init() {
+        this.x = new int[allDots];
+        this.y = new int[allDots];
+        this.inGame = true;
+        this.left = false;
+        this.right = true;
+        this.up = false;
+        this.down = false;
+        this.score = 0;
         setBackground(Color.white);
         image();
         game();
@@ -45,15 +58,14 @@ public class Field extends JPanel implements ActionListener {
             x[i] = 60 - i * dotSize;
             y[i] = 60;
         }
-        timer = new Timer(250, this);
-        timer.start();
         createBerry();
+        timer.restart();
     }
 
 
     public void createBerry() {
         Random random = new Random();
-        int lol = 20 + random.nextInt(20)*dotSize;
+        int lol = 20 + random.nextInt(20) * dotSize;
         berryX = new Random().nextInt(20) * dotSize;
         berryY = lol;
     }
@@ -72,8 +84,6 @@ public class Field extends JPanel implements ActionListener {
         ImageIcon b = new ImageIcon(url);
         berry = b.getImage();
     }
-
-
 
 
     @Override
@@ -103,8 +113,9 @@ public class Field extends JPanel implements ActionListener {
             g.drawString(a, 120, size / 2);
             String b = ("Your score = " + score);
             g.setColor(Color.black);
-            g.setFont(gg);
-            g.drawString(b, 105,235);
+            g.drawString(b, 105, 235);
+            String c = ("Press ENTER to restart");
+            g.drawString(c, 95, 265);
         }
     }
 
@@ -167,8 +178,11 @@ public class Field extends JPanel implements ActionListener {
             checkBerry();
             checkEdge();
         }
-
         repaint();
+    }
+
+    private void restart() {
+        init();
     }
 
     class Buttons extends KeyAdapter {
@@ -198,6 +212,10 @@ public class Field extends JPanel implements ActionListener {
                 down = true;
                 left = false;
                 right = false;
+            }
+
+            if (!inGame && key == KeyEvent.VK_ENTER) {
+                restart();
             }
         }
     }

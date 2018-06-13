@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class Window extends JFrame {
     public  Window(){
-        setTitle("Змейка");
+        setTitle("Snake");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(440,  465);
         setLocation(500, 500);

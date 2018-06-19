@@ -27,6 +27,7 @@ public class Field extends JPanel implements ActionListener {
     private boolean right;
     private boolean up;
     private boolean down;
+    private boolean boom;
     private int score;
 
 
@@ -65,8 +66,9 @@ public class Field extends JPanel implements ActionListener {
 
     public void createBerry() {
         Random random = new Random();
+        int kek = random.nextInt(20) * dotSize;
         int lol = 20 + random.nextInt(20) * dotSize;
-        berryX = new Random().nextInt(20) * dotSize;
+        berryX = kek;
         berryY = lol;
     }
 
@@ -110,12 +112,22 @@ public class Field extends JPanel implements ActionListener {
             Font gg = new Font("Helvetica", 1, 18);
             g.setColor(Color.red);
             g.setFont(gg);
-            g.drawString(a, 120, size / 2);
+            g.drawString(a, 145, size / 2);
             String b = ("Your score = " + score);
             g.setColor(Color.black);
-            g.drawString(b, 105, 235);
+            g.drawString(b, 135, 235);
             String c = ("Press ENTER to restart");
-            g.drawString(c, 95, 265);
+            g.drawString(c, 105, 265);
+            if (boom) {
+                String m = "You eat yourself!";
+                g.setColor(Color.blue);
+                g.drawString(m, 125, 295);
+            }
+            else {
+                String l = "You crashed into wall!";
+                g.setColor(Color.blue);
+                g.drawString(l, 110, 295);
+            }
         }
     }
 
@@ -145,15 +157,18 @@ public class Field extends JPanel implements ActionListener {
     public void checkBerry() {
         if (x[0] == berryX && y[0] == berryY) {
             dots++;
-            score = score + 1;
+            score = score + 10;
             createBerry();
         }
     }
 
+
     public void checkEdge() {
+        boom = false;
         for (int i = dots; i > 0; i--) {
-            if (i > 4 && x[0] == x[i] && y[0] == y[i]) {
+            if (i > 1 && x[0] == x[i] && y[0] == y[i]) {
                 inGame = false;
+                boom = true;
             }
         }
 
@@ -190,33 +205,44 @@ public class Field extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
             int key = e.getKeyCode();
-            if (key == KeyEvent.VK_LEFT && !right) {
-                left = true;
-                up = false;
-                down = false;
-            }
+            switch (key) {
+                case KeyEvent.VK_LEFT:
+                    if (key == KeyEvent.VK_LEFT && !right) {
+                        left = true;
+                        up = false;
+                        down = false;
+                    }
+                    break;
 
-            if (key == KeyEvent.VK_RIGHT && !left) {
-                right = true;
-                up = false;
-                down = false;
-            }
+                case KeyEvent.VK_RIGHT:
+                    if (key == KeyEvent.VK_RIGHT && !left) {
+                        right = true;
+                        up = false;
+                        down = false;
+                    }
+                    break;
 
-            if (key == KeyEvent.VK_UP && !down) {
-                up = true;
-                left = false;
-                right = false;
-            }
+                case KeyEvent.VK_UP:
+                    if (key == KeyEvent.VK_UP && !down) {
+                        up = true;
+                        left = false;
+                        right = false;
+                    }
+                    break;
 
-            if (key == KeyEvent.VK_DOWN && !up) {
-                down = true;
-                left = false;
-                right = false;
+                case KeyEvent.VK_DOWN:
+                    if (key == KeyEvent.VK_DOWN && !up) {
+                        down = true;
+                        left = false;
+                        right = false;
+                    }
+                    break;
             }
 
             if (!inGame && key == KeyEvent.VK_ENTER) {
                 restart();
             }
+
         }
     }
 }

@@ -64,14 +64,22 @@ public class Field extends JPanel implements ActionListener {
     }
 
 
+    public void checkSnake() {
+        for (int i = dots; i > 0 ; i--) {
+            if (x[i] == berryX || y[i] == berryY){
+                createBerry();
+            }
+        }
+    }
+
     public void createBerry() {
         Random random = new Random();
         int kek = random.nextInt(20) * dotSize;
         int lol = 20 + random.nextInt(20) * dotSize;
         berryX = kek;
         berryY = lol;
+        checkSnake();
     }
-
 
     public void image() {
         URL url = getClass().getResource("head.jpg");

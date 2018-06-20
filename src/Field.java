@@ -174,7 +174,7 @@ public class Field extends JPanel implements ActionListener {
     public void checkEdge() {
         boom = false;
         for (int i = dots; i > 0; i--) {
-            if (i > 1 && x[0] == x[i] && y[0] == y[i]) {
+            if ( i > 1 && x[0] == x[i] && y[0] == y[i]) {
                 inGame = false;
                 boom = true;
             }
